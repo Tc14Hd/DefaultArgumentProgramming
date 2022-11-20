@@ -44,7 +44,7 @@ var ctrlCodes = {
     continue : 1,
     break : 2,
     return : 3,
-}
+};
 
 function printNode(node) {
     console.log(JSON.stringify(node, undefined, 2));
@@ -460,26 +460,42 @@ function transformProperty(node, vars) {
 
 function transformCallExpression(node, vars) {
 
-    var calleeTransformed = transformNode(node.callee, vars);
+    var calleeExpr = transformNode(node.callee, vars).expr;
+
+    var calleeRefExpr, params;
+    if (calleeExpr.type == "MemberExpression") {
+
+        if (calleeExpr.computed) {
+            calleeRefExpr = getMemberExpr(getId("object"), getId("property"), true);
+            params = [
+                getDefaultParam("object", calleeExpr.object),
+                getDefaultParam("property", calleeExpr.property)
+            ];
+        }
+        else {
+            calleeRefExpr = getMemberExpr(getId("object"), calleeExpr.property, false);
+            params = [getDefaultParam("object", calleeExpr.object)];
+        }
+    }
+    else {
+        calleeRefExpr = getId("callee");
+        params = [getDefaultParam("callee", calleeExpr)];
+    }
 
     var args = [];
     for (var arg of node.arguments) {
         args.push(transformNode(arg, vars).expr);
     }
+    params.push(getDefaultParam("args", new ast.ArrayExpression({elements : args})));
 
-    var customFuncAttr = getMemberExpr(getId("callee"), getId("customfunc"));
-    var customfuncCall = getCallExpr(getId("callee"), [getId("args")]);
+    var customFuncAttr = getMemberExpr(calleeRefExpr, getId("customfunc"));
+    var customfuncCall = getCallExpr(calleeRefExpr, [getId("args")]);
 
-    var defaultFuncCall = getCallExpr(getId("callee"), [new ast.SpreadElement({argument : getId("args")})]);
+    var defaultFuncCall = getCallExpr(calleeRefExpr, [new ast.SpreadElement({argument : getId("args")})]);
     var assignRetval = getAssignExpr(getId("retval"), "=", defaultFuncCall);
 
     var bodyExpr = getCondExpr(customFuncAttr, customfuncCall, assignRetval);
-
-    var params = [
-        getDefaultParam("callee", calleeTransformed.expr),
-        getDefaultParam("args", new ast.ArrayExpression({elements : args})),
-        getDefaultParam("body", bodyExpr)
-    ];
+    params.push(getDefaultParam("body", bodyExpr));
 
     var expr = getSeq([getCallExpr(getEmptyFunc(params), []), getId("retval")]);
 

@@ -6,6 +6,7 @@ inputDir = "tests/input"
 outputDir = "tests/output"
 inputSuffix = "_in.js"
 outputSuffix = "_out.js"
+subDir = ""
 
 def executeFile(filePath, text):
 
@@ -23,12 +24,11 @@ def executeFile(filePath, text):
 
 def evaluate(testName, inputFilePath, outputFilePath):
 
-    command = f"node {programPath} {inputFilePath} > {outputFilePath}"
-
     print(colored("Test", "blue"), colored(testName, "magenta"))
     print(colored("Generate... ", "yellow"), end="", flush=True)
 
-    res = subprocess.run(command, shell=True, stderr=subprocess.DEVNULL)
+    command = f"node {programPath} {inputFilePath} > {outputFilePath} 2>&1"
+    res = subprocess.run(command, shell=True)
 
     if res.returncode == 0:
         print(colored("Success", "green"))
@@ -54,11 +54,13 @@ def evaluate(testName, inputFilePath, outputFilePath):
         return False
 
 
-subDir = ""
 if len(sys.argv) >= 2:
-    subDir = sys.argv[1]
+    programPath = sys.argv[1]
 
-inputFiles = sorted(glob.glob(inputDir + "/" + subDir + "/**/*" + inputSuffix, recursive=True))
+if len(sys.argv) >= 3:
+    subDir = sys.argv[2]
+
+inputFiles = sorted(glob.glob(f"{inputDir}/{subDir}/**/*{inputSuffix}", recursive=True))
 totalTests = 0
 successfulTests = 0
 
@@ -72,7 +74,7 @@ for inputFilePath in inputFiles:
     outputFileDir = outputDir + subfolders
     outputFilePath = outputFileDir + "/" + outputFileName
 
-    subprocess.run("mkdir -p " + outputFileDir, shell=True)
+    subprocess.run(f"mkdir -p {outputFileDir}", shell=True)
 
     success = evaluate(testName, inputFilePath, outputFilePath)
     print()
