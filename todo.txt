@@ -1,0 +1,75 @@
+Statements
+
+X Program
+X BlockStatement
+X ExpressionStatement
+X EmptyStatement
+X IfStatement
+X SwitchStatement
+X SwitchCase
+
+Expressions
+
+X AssignmentExpression
+X ArrayExpression
+X BinaryExpression
+X CallExpression
+X ConditionalExpression
+X Identifier
+X Literal
+X LogicalExpression
+X MemberExpression
+X NewExpression
+X ObjectExpression
+X Property
+X SequenceExpression
+X SpreadElement
+X UnaryExpression
+X UpdateExpression
+
+Loops
+
+X WhileStatement
+X DoWhileStatement
+X ForStatement
+X ForOfStatement
+X ContinueStatement
+X BreakStatement
+
+Variables
+
+X VariableDeclaration
+X VariableDeclarator
+
+Functions
+
+X FunctionDeclaration
+X ReturnStatement
+O ArrowFunctionExpression
+O FunctionExpression
+
+Maybe:
+- ArrayPattern
+- ObjectPattern
+- LabeledStatement
+- RestElement
+- ForInStatement
+- ThisExpression
+- ChainExpression
+- ClassDeclaration
+- ClassExpression
+
+Fixes:
+- delete var
+- variable name collision
+- switch function hoist
+
+TODO:
+- split ctrl -> boc/ret
+
+Limitations:
+- eval
+- global
+- strict mode
+- arguments
+- object get/set

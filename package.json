@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "abstract-syntax-tree": "^2.20.6"
+  }
+}

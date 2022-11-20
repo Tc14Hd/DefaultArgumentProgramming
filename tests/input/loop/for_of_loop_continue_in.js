@@ -1,0 +1,6 @@
+var a = [1, 2, 3];
+for (var x of a) {
+    console.log(x);
+    continue;
+    console.log("Unreachable");
+}

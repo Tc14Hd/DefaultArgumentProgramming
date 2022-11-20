@@ -1,0 +1,1 @@
+(function f(vars0 = {}, body = (ctrl = 0, (0, (function f(body = true && ((ctrl = 2), ctrl < 2 ? (ctrl = 0, (0, f())) : ctrl != 3 && (ctrl = 0))) {})()), ctrl == 0 && 0, ctrl == 0 && ((function f(callee = console.log, args = ["X"], body = callee.customfunc ? callee(args) : retval = callee(...args)) {})(), retval))) {})();
