@@ -18,6 +18,8 @@ Reserved variables:
         - itval
         - args
         - callee
+        - object
+        - property
     - Global:
         - ctrl
         - retval
@@ -798,8 +800,8 @@ function transformReturnStatement(node, vars) {
     var argumentExpr = transformNode(node.argument, vars).expr;
 
     var expr = getSeq([
-        getAssignExpr(getId("ctrl"), "=", getLit(ctrlCodes.return)),
-        getAssignExpr(getId("retval"), "=", argumentExpr)
+        getAssignExpr(getId("retval"), "=", argumentExpr),
+        getAssignExpr(getId("ctrl"), "=", getLit(ctrlCodes.return))
     ]);
 
     return returnVal({expr, ctrl : true});

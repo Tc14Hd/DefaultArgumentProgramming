@@ -20,8 +20,8 @@
               body = vars1.i < 5 && (
                 (
                   (
-                    ctrl = 3,
-                    retval = vars1.i
+                    retval = vars1.i,
+                    ctrl = 3
                   )
                 ),
                 ctrl < 2 ? (

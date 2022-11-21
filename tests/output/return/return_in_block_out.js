@@ -12,8 +12,8 @@
         body = (
           (
             (
-              ctrl = 3,
-              retval = 0
+              retval = 0,
+              ctrl = 3
             )
           ),
           ctrl == 0 && (

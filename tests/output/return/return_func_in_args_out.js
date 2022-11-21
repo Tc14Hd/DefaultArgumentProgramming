@@ -10,8 +10,8 @@
         vars1 = {},
         body = (
           (
-            ctrl = 3,
-            retval = 1
+            retval = 1,
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0

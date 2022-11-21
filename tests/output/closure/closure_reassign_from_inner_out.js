@@ -20,8 +20,8 @@
               vars2 = {},
               body = (
                 (
-                  ctrl = 3,
-                  retval = vars1.x
+                  retval = vars1.x,
+                  ctrl = 3
                 ),
                 ctrl != 3 && (retval = undefined),
                 ctrl = 0
@@ -46,8 +46,8 @@
             vars1.x = 0
           ),
           (
-            ctrl = 3,
-            retval = [vars1.g, vars1.h]
+            retval = [vars1.g, vars1.h],
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0

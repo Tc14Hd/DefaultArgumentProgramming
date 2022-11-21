@@ -120,10 +120,10 @@
         body = (
           vars1.value = args[0],
           (
-            ctrl = 3,
             retval = new vars0.ast.Literal({
               value: vars1.value
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -138,10 +138,10 @@
         body = (
           vars1.name = args[0],
           (
-            ctrl = 3,
             retval = new vars0.ast.Identifier({
               name: vars1.name
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -158,12 +158,12 @@
           vars1.operator = args[1],
           vars1.right = args[2],
           (
-            ctrl = 3,
             retval = new vars0.ast.LogicalExpression({
               left: vars1.left,
               right: vars1.right,
               operator: vars1.operator
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -180,12 +180,12 @@
           vars1.operator = args[1],
           vars1.right = args[2],
           (
-            ctrl = 3,
             retval = new vars0.ast.BinaryExpression({
               left: vars1.left,
               right: vars1.right,
               operator: vars1.operator
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -202,12 +202,12 @@
           vars1.operator = args[1],
           vars1.right = args[2],
           (
-            ctrl = 3,
             retval = new vars0.ast.AssignmentExpression({
               left: vars1.left,
               right: vars1.right,
               operator: vars1.operator
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -222,7 +222,6 @@
         body = (
           vars1.expressions = args[0],
           (
-            ctrl = 3,
             retval = vars1.expressions.length > 0 ? new vars0.ast.SequenceExpression({
               expressions: vars1.expressions
             }) : (
@@ -232,7 +231,8 @@
                 body = object.getLit.customfunc ? object.getLit(args) : retval = object.getLit(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -249,12 +249,12 @@
           vars1.consequent = args[1],
           vars1.alternate = args[2],
           (
-            ctrl = 3,
             retval = new vars0.ast.ConditionalExpression({
               test: vars1.test,
               consequent: vars1.consequent,
               alternate: vars1.alternate
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -271,12 +271,12 @@
           vars1.property = args[1],
           vars1.computed = args[2],
           (
-            ctrl = 3,
             retval = new vars0.ast.MemberExpression({
               object: vars1.object,
               property: vars1.property,
               computed: vars1.computed
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -292,11 +292,11 @@
           vars1.callee = args[0],
           vars1.args = args[1],
           (
-            ctrl = 3,
             retval = new vars0.ast.CallExpression({
               callee: vars1.callee,
               arguments: vars1.args
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -558,8 +558,8 @@
             )
           ) {})(),
           ctrl == 0 && (
-            ctrl = 3,
-            retval = vars1.varsSet
+            retval = vars1.varsSet,
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -652,11 +652,11 @@
             })
           ),
           (
-            ctrl = 3,
             retval = {
               varsSet: vars1.varsSet,
               varsExpr: vars1.varsExpr
-            }
+            },
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -776,13 +776,13 @@
             )
           ),
           ctrl == 0 && (
-            ctrl = 3,
             retval = {
               bodySeq: vars1.bodySeq,
               ctrl: vars1.ctrl,
               funcs: vars1.funcs,
               expressions: vars1.expressions
-            }
+            },
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -798,7 +798,6 @@
           vars1.name = args[0],
           vars1.val = args[1],
           (
-            ctrl = 3,
             retval = new vars0.ast.AssignmentPattern({
               left: (
                 (function f(
@@ -809,7 +808,8 @@
                 retval
               ),
               right: vars1.val
-            })
+            }),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -840,8 +840,8 @@
             })
           ),
           (
-            ctrl = 3,
-            retval = vars1.func
+            retval = vars1.func,
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1148,7 +1148,6 @@
             )]
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -1156,7 +1155,8 @@
                 body = object.getEmptyFunc.customfunc ? object.getEmptyFunc(args) : retval = object.getEmptyFunc(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1299,7 +1299,6 @@
             retval
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -1307,7 +1306,8 @@
                 body = object.getEmptyFunc.customfunc ? object.getEmptyFunc(args) : retval = object.getEmptyFunc(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1420,7 +1420,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -1428,7 +1427,8 @@
                 body = object.getCondExpr.customfunc ? object.getCondExpr(args) : retval = object.getCondExpr(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1459,7 +1459,6 @@
             }
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = Object,
@@ -1467,7 +1466,8 @@
                 body = object.assign.customfunc ? object.assign(args) : retval = object.assign(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1689,7 +1689,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0.astring,
@@ -1699,7 +1698,8 @@
                 body = object.generate.customfunc ? object.generate(args) : retval = object.generate(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1777,8 +1777,8 @@
             retval
           ),
           (
-            ctrl = 3,
-            retval = vars1.sourceTransformed
+            retval = vars1.sourceTransformed,
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1913,8 +1913,8 @@
             })
           ),
           (
-            ctrl = 3,
-            retval = vars1.funcCall
+            retval = vars1.funcCall,
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -1936,7 +1936,6 @@
               (fallthru || disc === "Identifier") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -1944,13 +1943,13 @@
                       body = object.transformIdentifier.customfunc ? object.transformIdentifier(args) : retval = object.transformIdentifier(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               ),
               ctrl == 0 && ((fallthru || disc === "MemberExpression") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -1958,13 +1957,13 @@
                       body = object.transformMemberExpression.customfunc ? object.transformMemberExpression(args) : retval = object.transformMemberExpression(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "Property") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -1972,13 +1971,13 @@
                       body = object.transformProperty.customfunc ? object.transformProperty(args) : retval = object.transformProperty(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "CallExpression") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -1986,13 +1985,13 @@
                       body = object.transformCallExpression.customfunc ? object.transformCallExpression(args) : retval = object.transformCallExpression(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "ExpressionStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2000,13 +1999,13 @@
                       body = object.transformNode.customfunc ? object.transformNode(args) : retval = object.transformNode(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "VariableDeclaration") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2014,13 +2013,13 @@
                       body = object.transformVariableDeclaration.customfunc ? object.transformVariableDeclaration(args) : retval = object.transformVariableDeclaration(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "BlockStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2028,13 +2027,13 @@
                       body = object.transformBlockStatement.customfunc ? object.transformBlockStatement(args) : retval = object.transformBlockStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "IfStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2042,13 +2041,13 @@
                       body = object.transformIfStatement.customfunc ? object.transformIfStatement(args) : retval = object.transformIfStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "WhileStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2056,13 +2055,13 @@
                       body = object.transformWhileStatement.customfunc ? object.transformWhileStatement(args) : retval = object.transformWhileStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "DoWhileStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2070,13 +2069,13 @@
                       body = object.transformDoWhileStatement.customfunc ? object.transformDoWhileStatement(args) : retval = object.transformDoWhileStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "ForStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2084,13 +2083,13 @@
                       body = object.transformForStatement.customfunc ? object.transformForStatement(args) : retval = object.transformForStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "ForOfStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2098,13 +2097,13 @@
                       body = object.transformForOfStatement.customfunc ? object.transformForOfStatement(args) : retval = object.transformForOfStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "BreakStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2112,13 +2111,13 @@
                       body = object.transformBreakStatement.customfunc ? object.transformBreakStatement(args) : retval = object.transformBreakStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "ContinueStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2126,13 +2125,13 @@
                       body = object.transformContinueStatement.customfunc ? object.transformContinueStatement(args) : retval = object.transformContinueStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "SwitchStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2140,13 +2139,13 @@
                       body = object.transformSwitchStatement.customfunc ? object.transformSwitchStatement(args) : retval = object.transformSwitchStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "FunctionDeclaration") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2154,13 +2153,13 @@
                       body = object.transformFunctionDeclaration.customfunc ? object.transformFunctionDeclaration(args) : retval = object.transformFunctionDeclaration(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "ReturnStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2168,13 +2167,13 @@
                       body = object.transformReturnStatement.customfunc ? object.transformReturnStatement(args) : retval = object.transformReturnStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "ThrowStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2182,13 +2181,13 @@
                       body = object.transformThrowStatement.customfunc ? object.transformThrowStatement(args) : retval = object.transformThrowStatement(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === "EmptyStatement") && (
                 fallthru = true,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2196,7 +2195,8 @@
                       body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && (true && (
@@ -2215,7 +2215,6 @@
                   )
                 ) : 0,
                 (
-                  ctrl = 3,
                   retval = (
                     (function f(
                       object = vars0,
@@ -2223,7 +2222,8 @@
                       body = object.transformExpression.customfunc ? object.transformExpression(args) : retval = object.transformExpression(...args)
                     ) {})(),
                     retval
-                  )
+                  ),
+                  ctrl = 3
                 )
               )),
               ctrl == 2 && (ctrl = 0)
@@ -2317,7 +2317,6 @@
             )
           )),
           ctrl == 0 && (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -2327,7 +2326,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -2378,7 +2378,6 @@
               )
             ),
             (
-              ctrl = 3,
               retval = (
                 (function f(
                   object = vars0,
@@ -2388,11 +2387,11 @@
                   body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
                 ) {})(),
                 retval
-              )
+              ),
+              ctrl = 3
             )
           ) : 0,
           ctrl == 0 && (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -2400,7 +2399,8 @@
                 body = object.transformExpression.customfunc ? object.transformExpression(args) : retval = object.transformExpression(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -2452,7 +2452,6 @@
             retval
           ).expr,
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -2462,7 +2461,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -2754,7 +2754,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -2764,7 +2763,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -2845,7 +2845,6 @@
             )
           ) {})(),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -2855,7 +2854,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -2949,7 +2949,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -2959,7 +2958,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3002,7 +3002,6 @@
             vars1.ctrl = vars1.res.ctrl
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3013,7 +3012,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3085,7 +3085,6 @@
             vars1.ctrl = vars1.consequentTransformed.ctrl || vars1.alternateTransformed.ctrl
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3096,7 +3095,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3201,7 +3201,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3212,7 +3211,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3317,7 +3317,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3328,7 +3327,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3494,7 +3494,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3505,7 +3504,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3698,7 +3698,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3709,7 +3708,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3756,7 +3756,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3767,7 +3766,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -3814,7 +3814,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -3825,7 +3824,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -4149,7 +4149,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -4160,7 +4159,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -4275,7 +4275,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -4286,7 +4285,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -4324,6 +4324,20 @@
                     args = [(
                       (function f(
                         object = vars0,
+                        args = ["retval"],
+                        body = object.getId.customfunc ? object.getId(args) : retval = object.getId(...args)
+                      ) {})(),
+                      retval
+                    ), "=", vars1.argumentExpr],
+                    body = object.getAssignExpr.customfunc ? object.getAssignExpr(args) : retval = object.getAssignExpr(...args)
+                  ) {})(),
+                  retval
+                ), (
+                  (function f(
+                    object = vars0,
+                    args = [(
+                      (function f(
+                        object = vars0,
                         args = ["ctrl"],
                         body = object.getId.customfunc ? object.getId(args) : retval = object.getId(...args)
                       ) {})(),
@@ -4339,20 +4353,6 @@
                     body = object.getAssignExpr.customfunc ? object.getAssignExpr(args) : retval = object.getAssignExpr(...args)
                   ) {})(),
                   retval
-                ), (
-                  (function f(
-                    object = vars0,
-                    args = [(
-                      (function f(
-                        object = vars0,
-                        args = ["retval"],
-                        body = object.getId.customfunc ? object.getId(args) : retval = object.getId(...args)
-                      ) {})(),
-                      retval
-                    ), "=", vars1.argumentExpr],
-                    body = object.getAssignExpr.customfunc ? object.getAssignExpr(args) : retval = object.getAssignExpr(...args)
-                  ) {})(),
-                  retval
                 )]],
                 body = object.getSeq.customfunc ? object.getSeq(args) : retval = object.getSeq(...args)
               ) {})(),
@@ -4360,7 +4360,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -4371,7 +4370,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0
@@ -4474,7 +4474,6 @@
             )
           ),
           (
-            ctrl = 3,
             retval = (
               (function f(
                 object = vars0,
@@ -4484,7 +4483,8 @@
                 body = object.returnVal.customfunc ? object.returnVal(args) : retval = object.returnVal(...args)
               ) {})(),
               retval
-            )
+            ),
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0

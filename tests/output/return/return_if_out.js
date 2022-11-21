@@ -12,11 +12,11 @@
         body = (
           vars1.x = args[0],
           vars1.x == 0 ? (
-            ctrl = 3,
-            retval = "A"
+            retval = "A",
+            ctrl = 3
           ) : (
-            ctrl = 3,
-            retval = "B"
+            retval = "B",
+            ctrl = 3
           ),
           ctrl != 3 && (retval = undefined),
           ctrl = 0

@@ -17,22 +17,22 @@
               (fallthru || disc === 0) && (
                 fallthru = true,
                 (
-                  ctrl = 3,
-                  retval = 1
+                  retval = 1,
+                  ctrl = 3
                 )
               ),
               ctrl == 0 && ((fallthru || disc === 1) && (
                 fallthru = true,
                 (
-                  ctrl = 3,
-                  retval = 2
+                  retval = 2,
+                  ctrl = 3
                 )
               )),
               ctrl == 0 && ((fallthru || disc === 2) && (
                 fallthru = true,
                 (
-                  ctrl = 3,
-                  retval = 3
+                  retval = 3,
+                  ctrl = 3
                 )
               )),
               ctrl == 2 && (ctrl = 0)
