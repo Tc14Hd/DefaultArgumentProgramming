@@ -5,7 +5,8 @@
 
 var ast = require("abstract-syntax-tree");
 var meriyah = require("meriyah");
-var fs = require('fs');
+var astring = require("astring");
+var fs = require("fs");
 
 /*
 Reserved variables:
@@ -297,16 +298,69 @@ function returnVal(ret) {
     return Object.assign(defaultRet, ret);
 }
 
-function transformSource(source, debugFlag) {
+function generatePretty(node) {
 
-    var node = meriyah.parse(source, {webcompat : true});
-    var programTransformed = transformProgram(node);
+    function formatSequence(state, nodes) {
 
-    if (debugFlag) {
-        printNode(programTransformed);
+        var generator = state.generator;
+        state.write("(\n");
+
+        var indent = state.indent.repeat(state.indentLevel++);
+        var indextElement = indent + state.indent;
+
+        if (nodes != null && nodes.length > 0) {
+
+            state.write(indextElement);
+            generator[nodes[0].type](nodes[0], state);
+    
+            for (var i = 1; i < nodes.length; i++) {
+                var param = nodes[i];
+
+                state.write(",\n");
+                state.write(indextElement);
+                generator[param.type](param, state);
+            }
+            state.write("\n");
+        }
+
+        state.write(indent + ")");
+        state.indentLevel--;
     }
 
-    var sourceTransformed = ast.generate(programTransformed, {lineEnd : " ", indent : ""});
+    function FunctionExpression(node, state) {
+
+        state.write(
+            (node.async ? "async " : "") +
+                (node.generator ? "function* " : "function ") +
+                (node.id ? node.id.name : ""),
+            node
+        );
+
+        formatSequence(state, node.params);
+        state.write(" ");
+        state.generator[node.body.type](node.body, state);
+    }
+
+    function SequenceExpression(node, state) {
+        formatSequence(state, node.expressions)
+    }
+
+    var generator = Object.assign({}, astring.GENERATOR, {FunctionExpression, SequenceExpression});
+
+    return astring.generate(node, {generator});
+}
+
+function transformSource(source, printTree, oneLine) {
+
+    var node = meriyah.parse(source, {webcompat : true});
+    if (printTree) printNode(node);
+
+    var programTransformed = transformProgram(node);
+    if (printTree) printNode(programTransformed);
+
+    var sourceTransformed;
+    if (oneLine) sourceTransformed = astring.generate(programTransformed, {lineEnd : " ", indent : ""});
+    else sourceTransformed = generatePretty(programTransformed);
 
     return sourceTransformed;
 }
@@ -564,9 +618,7 @@ function transformIfStatement(node, vars) {
     var testTransformed = transformNode(node.test, vars);
     var consequentTransformed = transformNode(node.consequent, vars);
 
-    var alternateTransformed = (node.alternate === null)
-        ? returnVal()
-        : transformNode(node.alternate, vars);
+    var alternateTransformed = (node.alternate === null) ? returnVal() : transformNode(node.alternate, vars);
 
     var expr = getCondExpr(testTransformed.expr, consequentTransformed.expr, alternateTransformed.expr);
     var ctrl = consequentTransformed.ctrl || alternateTransformed.ctrl;
@@ -596,7 +648,7 @@ function transformDoWhileStatement(node, vars) {
     var ctrl = bodyTransformed.ctrl;
 
     var recursion = getLogicExpr(testTransformed.expr, "&&", getCallExpr(getId("f"), []));
-    if (ctrl) recursion = addLoopCtrl(recursion);bodyTransformed.ctrl
+    if (ctrl) recursion = addLoopCtrl(recursion);
 
     var bodyExpr = getSeq([bodyTransformed.expr, recursion]);
     var expr = getCallExpr(getFuncLoop(bodyExpr), []);
