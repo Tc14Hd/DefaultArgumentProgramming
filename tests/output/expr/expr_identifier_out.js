@@ -1,7 +1,1 @@
-(function f(
-  vars0 = {},
-  body = (
-    ctrl = 0,
-    console
-  )
-) {})();
+(function f(vars0 = {}, body = (ctrl = 0, console)) {})();

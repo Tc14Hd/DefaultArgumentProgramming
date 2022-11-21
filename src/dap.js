@@ -2,6 +2,7 @@
 
 // https://github.com/buxlabs/abstract-syntax-tree
 // https://github.com/meriyah/meriyah
+// https://github.com/davidbonnet/astring
 
 var ast = require("abstract-syntax-tree");
 var meriyah = require("meriyah");
@@ -352,17 +353,17 @@ function generatePretty(node) {
     return astring.generate(node, {generator});
 }
 
-function transformSource(source, printTree, oneLine) {
+function transformSource(source, debug) {
 
     var node = meriyah.parse(source, {webcompat : true});
-    if (printTree) printNode(node);
+    if (debug) printNode(node);
 
     var programTransformed = transformProgram(node);
-    if (printTree) printNode(programTransformed);
+    if (debug) printNode(programTransformed);
 
     var sourceTransformed;
-    if (oneLine) sourceTransformed = astring.generate(programTransformed, {lineEnd : " ", indent : ""});
-    else sourceTransformed = generatePretty(programTransformed);
+    if (debug) sourceTransformed = generatePretty(programTransformed);
+    else sourceTransformed = astring.generate(programTransformed, {lineEnd : " ", indent : ""});
 
     return sourceTransformed;
 }
@@ -811,8 +812,8 @@ function transformThrowStatement(node, vars) {
 
     var transformedArgument = transformNode(node.argument, vars);
 
-    var consoleLogExpr = getCallExpr(getMemberExpr(getId("console"), getId("log"), false), [transformedArgument.expr]);
-    var processExitExpr = getCallExpr(getMemberExpr(getId("process"), getId("exit"), false), []);
+    var consoleLogExpr = getCallExpr(getMemberExpr(getId("console"), getId("error"), false), [transformedArgument.expr]);
+    var processExitExpr = getCallExpr(getMemberExpr(getId("process"), getId("exit"), false), [getLit(1)]);
     var expr = getSeq([consoleLogExpr, processExitExpr]);
 
     return returnVal({expr});

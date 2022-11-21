@@ -73,3 +73,4 @@ Limitations:
 - strict mode
 - arguments
 - object get/set
+- use custom function outside program
