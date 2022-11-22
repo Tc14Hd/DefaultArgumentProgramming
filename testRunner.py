@@ -23,32 +23,36 @@ testsSelfTranspiled = {
     "total" : 0
 }
 
-def executeFile(filePath, text):
+def executeFile(filePath, message):
 
-    print(colored(f"Execute {text}... ", "yellow"), end="", flush=True)
+    print(colored(f"{message} ", "yellow"), end="", flush=True)
 
+    # Run command
     command = f"node {filePath}"
     res = subprocess.run(command, shell=True, executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
+    # Check whether execution was successful
     if res.returncode == 0:
         print(colored("Success", "green"))
     else:
         print(colored("Failure", "grey"))
-    
+
     return (res.returncode == 0, res.stdout)
 
 
 def generateOutput(programPath, inputFilePath, outputFilePath, message):
 
-    print(colored(f"{message}... ", "yellow"), end="", flush=True)
+    print(colored(f"{message} ", "yellow"), end="", flush=True)
 
+    # Create command
     command = f"node {programPath} {inputFilePath} 2>&1"
-
     if outputFilePath is not None:
         command = f"set -o pipefail; {command} | tee {outputFilePath}"
 
+    # Run command
     res = subprocess.run(command, shell=True, executable="/bin/bash", stdout=subprocess.PIPE)
 
+    # Check whether execution was successful
     if res.returncode == 0:
         print(colored("Success", "green"))
     else:
@@ -67,7 +71,7 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
     testsNormal["total"] += 1
 
     # Generate normal output
-    success, normalOutput = generateOutput(normalProgramPath, inputFilePath, outputFilePath, "Generate output")
+    success, normalOutput = generateOutput(normalProgramPath, inputFilePath, outputFilePath, "Generate output...")
 
     # Generating failed
     if not success:
@@ -75,10 +79,10 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
         return
 
     # Execute input
-    inputRes = executeFile(inputFilePath, "input")
+    inputRes = executeFile(inputFilePath, "Execute input...  ")
 
     # Execute output
-    outputRes = executeFile(outputFilePath, "output")
+    outputRes = executeFile(outputFilePath, "Execute output... ")
 
     # Compare execution results
     if inputRes != outputRes:
@@ -98,7 +102,7 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
     testsSelfTranspiled["total"] += 1
 
     # Generate self-transpiled output
-    success, selfTranspiledOutput = generateOutput(selfTranspiledProgramPath, inputFilePath, None, "Generate output")
+    success, selfTranspiledOutput = generateOutput(selfTranspiledProgramPath, inputFilePath, None, "Generate output...")
 
     # Generating failed
     if not success:
@@ -120,7 +124,7 @@ def selfTranspile():
     testsNormal["total"] += 1
 
     # Self-transpile
-    success, normalOutput = generateOutput(normalProgramPath, normalProgramPath, selfTranspiledProgramPath, "Self-transpile")
+    success, normalOutput = generateOutput(normalProgramPath, normalProgramPath, selfTranspiledProgramPath, "Self-transpile...")
 
     # Self-transpiling failed
     if not success:
@@ -131,7 +135,7 @@ def selfTranspile():
     testsSelfTranspiled["total"] += 1
 
     # Transpile back
-    success, selfTranspiledOutput = generateOutput(selfTranspiledProgramPath, normalProgramPath, None, "Transpile back")
+    success, selfTranspiledOutput = generateOutput(selfTranspiledProgramPath, normalProgramPath, None, "Transpile back...")
 
     # Transpiling back failed
     if not success:

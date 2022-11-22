@@ -68,9 +68,9 @@ TODO:
 - split ctrl -> boc/ret
 
 Limitations:
-- eval
-- global
+- eval function
+- global variable
+- arguments variable
 - strict mode
-- arguments
 - object get/set
 - use custom function outside program
