@@ -1,7 +1,7 @@
 import os, glob, subprocess, sys
 from termcolor import colored
 
-normalprogramPath = "./src/dap.js"
+normalProgramPath = "./src/dap.js"
 selfTranspiledProgramPath = "./src/self-transpiled.js"
 inputDir = "./tests/input"
 outputDir = "./tests/output"
@@ -42,10 +42,10 @@ def generateOutput(programPath, inputFilePath, outputFilePath, message):
 
     print(colored(f"{message}... ", "yellow"), end="", flush=True)
 
-    command = f"set -o pipefail; node {programPath} {inputFilePath} 2>&1"
+    command = f"node {programPath} {inputFilePath} 2>&1"
 
     if outputFilePath is not None:
-        command += f" | tee {outputFilePath}"
+        command = f"set -o pipefail; {command} | tee {outputFilePath}"
 
     res = subprocess.run(command, shell=True, executable="/bin/bash", stdout=subprocess.PIPE)
 
@@ -67,8 +67,9 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
     testsNormal["total"] += 1
 
     # Generate normal output
-    success, normalOutput = generateOutput(normalprogramPath, inputFilePath, outputFilePath, "Generate output")
+    success, normalOutput = generateOutput(normalProgramPath, inputFilePath, outputFilePath, "Generate output")
 
+    # Generating failed
     if not success:
         testsNormal["generationFailed"] += 1
         return
@@ -87,6 +88,9 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
         print(colored("Execution results match", "green"))
         testsNormal["successful"] += 1
 
+    if not selfTranspiledSuccess:
+        return
+
     print()
 
     # Self-transpiled test
@@ -96,10 +100,12 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
     # Generate self-transpiled output
     success, selfTranspiledOutput = generateOutput(selfTranspiledProgramPath, inputFilePath, None, "Generate output")
 
+    # Generating failed
     if not success:
         testsSelfTranspiled["generationFailed"] += 1
         return
 
+    # Compare generation outputs
     if normalOutput == selfTranspiledOutput:
         print(colored("Outputs match", "green"))
         testsSelfTranspiled["successful"] += 1
@@ -108,16 +114,58 @@ def evaluateTestCase(testName, inputFilePath, outputFilePath):
         testsSelfTranspiled["outputsMismatch"] += 1
 
 
+def selfTranspile():
+
+    print(colored("Test", "blue"), colored("self-transpiling", "magenta"))
+    testsNormal["total"] += 1
+
+    # Self-transpile
+    success, normalOutput = generateOutput(normalProgramPath, normalProgramPath, selfTranspiledProgramPath, "Self-transpile")
+
+    # Self-transpiling failed
+    if not success:
+        testsNormal["generationFailed"] += 1
+        return False
+
+    testsNormal["successful"] += 1
+    testsSelfTranspiled["total"] += 1
+
+    # Transpile back
+    success, selfTranspiledOutput = generateOutput(selfTranspiledProgramPath, normalProgramPath, None, "Transpile back")
+
+    # Transpiling back failed
+    if not success:
+        testsSelfTranspiled["generationFailed"] += 1
+        return True
+
+    # Compare generation outputs
+    if normalOutput == selfTranspiledOutput:
+        print(colored("Outputs match", "green"))
+        testsSelfTranspiled["successful"] += 1
+    else:
+        print(colored("Outputs don't match", "red"))
+        testsSelfTranspiled["outputsMismatch"] += 1
+
+    return True
+
+
+def printSummary(text, value, colorPositive, colorZero):
+
+    color = colorPositive if value > 0 else colorZero
+    print(colored(f"{text} : {value}", color))
+
+
 # Command line arguments
 if len(sys.argv) >= 2:
     subDir = sys.argv[1]
 
+# Self-transpiling
+selfTranspiledSuccess = selfTranspile()
+print()
+print()
+
 # Get test cases
 inputFiles = sorted(glob.glob(f"{inputDir}/{subDir}/**/*{inputSuffix}", recursive=True))
-
-# Self-transpile
-selfTranspiled = generateOutput(normalprogramPath, normalprogramPath, selfTranspiledProgramPath, "Self-transpile")[0]
-print()
 
 # Loop through test cases
 for inputFilePath in inputFiles:
@@ -138,15 +186,22 @@ for inputFilePath in inputFiles:
 
 # Print summaries
 print(colored("Summary normal", "blue"))
-print(f"{colored('Generation failed', 'red')} : {testsNormal['generationFailed']}")
-print(f"{colored('Results mismatch ', 'red')} : {testsNormal['generationFailed']}")
-print(f"{colored('Succesful        ', 'green')} : {testsNormal['successful']}")
-print(f"{colored('Total            ', 'white')} : {testsNormal['total']}")
+
+printSummary("Generation failed", testsNormal["generationFailed"], "red",   "grey" )
+printSummary("Results mismatch ", testsNormal["resultsMismatch"],  "red",   "grey" )
+printSummary("Succesful        ", testsNormal["successful"],       "green", "grey" )
+printSummary("Total            ", testsNormal["total"],            "white", "white")
 
 print()
 
 print(colored("Summary self-transpiled", "blue"))
-print(f"{colored('Generation failed', 'red')} : {testsSelfTranspiled['generationFailed']}")
-print(f"{colored('Outputs mismatch ', 'red')} : {testsSelfTranspiled['outputsMismatch']}")
-print(f"{colored('Succesful        ', 'green')} : {testsSelfTranspiled['successful']}")
-print(f"{colored('Total            ', 'white')} : {testsSelfTranspiled['total']}")
+
+if selfTranspiledSuccess:
+
+    printSummary("Generation failed", testsSelfTranspiled["generationFailed"], "red",   "grey" )
+    printSummary("Outputs mismatch ", testsSelfTranspiled["outputsMismatch"],  "red",   "grey" )
+    printSummary("Succesful        ", testsSelfTranspiled["successful"],       "green", "grey" )
+    printSummary("Total            ", testsSelfTranspiled["total"],            "white", "white")
+
+else:
+    print(colored("Self-transpiling failed", "red"))
