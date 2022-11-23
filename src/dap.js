@@ -12,9 +12,9 @@ var fs = require("fs");
 /*
 Reserved variables:
     - Function:
-        - f
         - vars[number]
         - body
+        - loop
         - it
         - itval
         - args
@@ -206,12 +206,10 @@ function getDefaultParam(name, val) {
     return new ast.AssignmentPattern({left : getId(name), right : val});
 }
 
-function getEmptyFunc(params) {
+function getEmptyFunc(id, params) {
 
     var func = new ast.FunctionExpression({
-        id : getId("f"),
-        body : new ast.BlockStatement(),
-        params
+        id, body : new ast.BlockStatement(), params
     });
 
     return func;
@@ -260,7 +258,7 @@ function getFuncDecl(node, varsOld) {
         getDefaultParam("body", bodyExpr)
     ];
 
-    return getEmptyFunc(params);
+    return getEmptyFunc(null, params);
 }
 
 function getFuncLoop(bodyExpr, iterable) {
@@ -279,7 +277,7 @@ function getFuncLoop(bodyExpr, iterable) {
 
     params.push(getDefaultParam("body", bodyExpr));
 
-    return getEmptyFunc(params);
+    return getEmptyFunc(getId("loop"), params);
 }
 
 function addLoopCtrl(expr) {
@@ -384,7 +382,7 @@ function transformProgram(node) {
         getDefaultParam("body", bodyExpr)
     ];
 
-    var func = getEmptyFunc(params);
+    var func = getEmptyFunc(null, params);
     var funcCall = new ast.ExpressionStatement({expression : getCallExpr(func, [])});
 
     return funcCall;
@@ -556,7 +554,7 @@ function transformCallExpression(node, vars) {
     var bodyExpr = getCondExpr(customFuncAttr, customfuncCall, assignRetval);
     params.push(getDefaultParam("body", bodyExpr));
 
-    var expr = getSeq([getCallExpr(getEmptyFunc(params), []), getId("retval")]);
+    var expr = getSeq([getCallExpr(getEmptyFunc(null, params), []), getId("retval")]);
 
     return returnVal({expr});
 }
@@ -637,7 +635,7 @@ function transformWhileStatement(node, vars) {
     var bodyTransformed = transformNode(node.body, vars);
     var ctrl = bodyTransformed.ctrl;
 
-    var recursion = getCallExpr(getId("f"), []);
+    var recursion = getCallExpr(getId("loop"), []);
     if (ctrl) recursion = addLoopCtrl(recursion);
 
     var bodyExpr = getLogicExpr(testTransformed.expr, "&&", getSeq([bodyTransformed.expr, recursion]));
@@ -652,7 +650,7 @@ function transformDoWhileStatement(node, vars) {
     var bodyTransformed = transformNode(node.body, vars);
     var ctrl = bodyTransformed.ctrl;
 
-    var recursion = getLogicExpr(testTransformed.expr, "&&", getCallExpr(getId("f"), []));
+    var recursion = getLogicExpr(testTransformed.expr, "&&", getCallExpr(getId("loop"), []));
     if (ctrl) recursion = addLoopCtrl(recursion);
 
     var bodyExpr = getSeq([bodyTransformed.expr, recursion]);
@@ -669,7 +667,7 @@ function transformForStatement(node, vars) {
     var bodyTransformed = transformNode(node.body, vars);
     var ctrl = bodyTransformed.ctrl;
 
-    var recursion = getSeq([updateExpr, getCallExpr(getId("f"), [])]);
+    var recursion = getSeq([updateExpr, getCallExpr(getId("loop"), [])]);
     if (ctrl) recursion = addLoopCtrl(recursion);
 
     var bodyExpr = getLogicExpr(testExpr, "&&", getSeq([bodyTransformed.expr, recursion]));
@@ -698,7 +696,7 @@ function transformForOfStatement(node, vars) {
     var bodyTransformed = transformNode(node.body, vars);
     var ctrl = bodyTransformed.ctrl;
 
-    var recursion = getCallExpr(getId("f"), [getId("it")]);
+    var recursion = getCallExpr(getId("loop"), [getId("it")]);
     if (ctrl) recursion = addLoopCtrl(recursion);
 
     var bodyExpr = getSeq([
@@ -776,7 +774,7 @@ function transformSwitchStatement(node, vars) {
         getDefaultParam("fallthru", getLit(false)),
         getDefaultParam("body", getSeq(bodySeq))
     ];
-    var expr = getCallExpr(getEmptyFunc(params), []);
+    var expr = getCallExpr(getEmptyFunc(null, params), []);
 
     return returnVal({expr, ctrl});
 }

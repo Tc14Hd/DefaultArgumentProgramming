@@ -1,0 +1,1 @@
+(function (vars0 = { undefined: undefined }, body = (ctrl = 0, (vars0.undefined = 0), ((function (object = console, args = [vars0.undefined], body = object.log.customfunc ? object.log(args) : retval = object.log(...args)) {})(), retval))) {})();
