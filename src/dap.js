@@ -33,7 +33,6 @@ var nodeTypes = new Set([
     "AssignmentExpression",
     "BinaryExpression",
     "ConditionalExpression",
-    "Literal",
     "LogicalExpression",
     "NewExpression",
     "ObjectExpression",
@@ -394,6 +393,9 @@ function transformProgram(node) {
 function transformNode(node, vars) {
 
     switch (node.type) {
+
+        case "Literal":
+            return returnVal({expr : node});
 
         case "Identifier":
             return transformIdentifier(node, vars);

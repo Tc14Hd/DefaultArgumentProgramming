@@ -26,7 +26,6 @@ X SequenceExpression
 X SpreadElement
 X UnaryExpression
 X UpdateExpression
-O RegExpLiteral
 O TemplateLiteral
 O TemplateElement
 O TaggedTemplateExpression
