@@ -29,7 +29,7 @@ def executeFile(filePath, message):
 
     # Run command
     command = f"node '{filePath}'"
-    res = subprocess.run(command, shell=True, executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    res = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
     # Check whether execution was successful
     if res.returncode == 0:
@@ -44,13 +44,14 @@ def generateOutput(programPath, inputFilePath, outputFilePath, message):
 
     print(colored(f"{message} ", "yellow"), end="", flush=True)
 
-    # Create command
-    command = f"node '{programPath}' '{inputFilePath}' 2>&1"
-    if outputFilePath is not None:
-        command = f"set -o pipefail; {command} | tee '{outputFilePath}'"
-
     # Run command
-    res = subprocess.run(command, shell=True, executable="/bin/bash", stdout=subprocess.PIPE)
+    command = f"node '{programPath}' '{inputFilePath}' 2>&1"
+    res = subprocess.run(command, shell=True, stdout=subprocess.PIPE)
+
+    # Write to file
+    if outputFilePath is not None:
+        with open(outputFilePath, "wb") as f:
+            f.write(res.stdout)
 
     # Check whether execution was successful
     if res.returncode == 0:
