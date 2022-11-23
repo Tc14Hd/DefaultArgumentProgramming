@@ -1,4 +1,4 @@
-import os, glob, subprocess, sys, argparse
+import os, glob, subprocess, argparse
 from termcolor import colored
 
 normalProgramPath = "./src/dap.js"
@@ -224,5 +224,8 @@ if args.test is not None:
 
 elif args.folder is not None:
     inputFiles = sorted(glob.glob(f"{inputDir}/{args.folder}/**/*{inputSuffix}", recursive=True))
+
+else:
+    inputFiles = sorted(glob.glob(f"{inputDir}/**/*{inputSuffix}", recursive=True))
 
 runTests()
