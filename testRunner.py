@@ -1,4 +1,4 @@
-import os, glob, subprocess, sys
+import os, glob, subprocess, sys, argparse
 from termcolor import colored
 
 normalProgramPath = "./src/dap.js"
@@ -7,7 +7,6 @@ inputDir = "./tests/input"
 outputDir = "./tests/output"
 inputSuffix = "_in.js"
 outputSuffix = "_out.js"
-subDir = ""
 
 testsNormal = {
     "generationFailed" : 0,
@@ -62,7 +61,7 @@ def generateOutput(programPath, inputFilePath, outputFilePath, message):
     return (res.returncode == 0, res.stdout)
 
 
-def evaluateTestCase(testName, inputFilePath, outputFilePath):
+def evaluateTestCase(testName, inputFilePath, outputFilePath, selfTranspiledSuccess):
 
     print(colored("Test", "blue"), colored(testName, "magenta"))
     print()
@@ -160,53 +159,70 @@ def printSummary(text, value, colorPositive, colorZero):
     print(colored(f"{text} : {value}", color))
 
 
-# Command line arguments
-if len(sys.argv) >= 2:
-    subDir = sys.argv[1]
+def runTests():
 
-# Self-transpiling
-selfTranspiledSuccess = selfTranspile()
-print()
-print()
+    # Self-transpiling
+    if doSelfTranspile:
+        selfTranspiledSuccess = selfTranspile()
+        print("\n")
+    else:
+        selfTranspiledSuccess = False
+
+    # Loop through test cases
+    for inputFilePath in inputFiles:
+
+        inputFileDir, inputFileName = os.path.split(inputFilePath)
+        testName = inputFileName[:-len(inputSuffix)]
+        subfolders = inputFileDir[len(inputDir)::]
+
+        outputFileName = testName + outputSuffix
+        outputFileDir = outputDir + subfolders
+        outputFilePath = f"{outputFileDir}/{outputFileName}"
+
+        subprocess.run(f"mkdir -p {outputFileDir}", shell=True)
+
+        evaluateTestCase(testName, inputFilePath, outputFilePath, selfTranspiledSuccess)
+        print("\n")
+
+    # Print summaries
+    print(colored("Summary normal", "blue"))
+
+    printSummary("Generation failed", testsNormal["generationFailed"], "red",   "grey" )
+    printSummary("Results mismatch ", testsNormal["resultsMismatch"],  "red",   "grey" )
+    printSummary("Succesful        ", testsNormal["successful"],       "green", "grey" )
+    printSummary("Total            ", testsNormal["total"],            "white", "white")
+
+    if doSelfTranspile:
+
+        print()
+        print(colored("Summary self-transpiled", "blue"))
+
+        if selfTranspiledSuccess:
+
+            printSummary("Generation failed", testsSelfTranspiled["generationFailed"], "red",   "grey" )
+            printSummary("Outputs mismatch ", testsSelfTranspiled["outputsMismatch"],  "red",   "grey" )
+            printSummary("Succesful        ", testsSelfTranspiled["successful"],       "green", "grey" )
+            printSummary("Total            ", testsSelfTranspiled["total"],            "white", "white")
+
+        else:
+            print(colored("Self-transpiling failed", "red"))
+
+
+# Command line arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("--test", "-t", action="store", help="execute specified test")
+parser.add_argument("--folder", "-f", action="store", help="execute tests in specified folder")
+parser.add_argument("--no-self-transpile", "-nst", action="store_true", help="don't test self-transpiling")
+args = parser.parse_args()
+
+doSelfTranspile = not args.no_self_transpile
+print(args, doSelfTranspile)
 
 # Get test cases
-inputFiles = sorted(glob.glob(f"{inputDir}/{subDir}/**/*{inputSuffix}", recursive=True))
+if args.test is not None:
+    inputFiles = sorted(glob.glob(f"{inputDir}/**/{args.test}{inputSuffix}", recursive=True))
 
-# Loop through test cases
-for inputFilePath in inputFiles:
+elif args.folder is not None:
+    inputFiles = sorted(glob.glob(f"{inputDir}/{args.folder}/**/*{inputSuffix}", recursive=True))
 
-    inputFileDir, inputFileName = os.path.split(inputFilePath)
-    testName = inputFileName[:-len(inputSuffix)]
-    subfolders = inputFileDir[len(inputDir)::]
-
-    outputFileName = testName + outputSuffix
-    outputFileDir = outputDir + subfolders
-    outputFilePath = f"{outputFileDir}/{outputFileName}"
-
-    subprocess.run(f"mkdir -p {outputFileDir}", shell=True)
-
-    evaluateTestCase(testName, inputFilePath, outputFilePath)
-    print()
-    print()
-
-# Print summaries
-print(colored("Summary normal", "blue"))
-
-printSummary("Generation failed", testsNormal["generationFailed"], "red",   "grey" )
-printSummary("Results mismatch ", testsNormal["resultsMismatch"],  "red",   "grey" )
-printSummary("Succesful        ", testsNormal["successful"],       "green", "grey" )
-printSummary("Total            ", testsNormal["total"],            "white", "white")
-
-print()
-
-print(colored("Summary self-transpiled", "blue"))
-
-if selfTranspiledSuccess:
-
-    printSummary("Generation failed", testsSelfTranspiled["generationFailed"], "red",   "grey" )
-    printSummary("Outputs mismatch ", testsSelfTranspiled["outputsMismatch"],  "red",   "grey" )
-    printSummary("Succesful        ", testsSelfTranspiled["successful"],       "green", "grey" )
-    printSummary("Total            ", testsSelfTranspiled["total"],            "white", "white")
-
-else:
-    print(colored("Self-transpiling failed", "red"))
+runTests()
