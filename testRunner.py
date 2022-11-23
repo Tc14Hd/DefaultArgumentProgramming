@@ -210,13 +210,12 @@ def runTests():
 
 # Command line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("--test", "-t", action="store", help="execute specified test")
-parser.add_argument("--folder", "-f", action="store", help="execute tests in specified folder")
+parser.add_argument("--test", "-t", action="store", help="execute specified test", metavar="test_name")
+parser.add_argument("--folder", "-f", action="store", help="execute tests in specified folder", metavar="folder_name")
 parser.add_argument("--no-self-transpile", "-nst", action="store_true", help="don't test self-transpiling")
 args = parser.parse_args()
 
 doSelfTranspile = not args.no_self_transpile
-print(args, doSelfTranspile)
 
 # Get test cases
 if args.test is not None:
