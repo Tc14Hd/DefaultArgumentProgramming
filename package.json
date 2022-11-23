@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "abstract-syntax-tree": "^2.20.6"
+    "abstract-syntax-tree": "^2.20.6",
+    "yargs": "^17.6.2"
   }
 }

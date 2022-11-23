@@ -8,6 +8,7 @@ var ast = require("abstract-syntax-tree");
 var meriyah = require("meriyah");
 var astring = require("astring");
 var fs = require("fs");
+var yargs = require("yargs");
 
 /*
 Reserved variables:
@@ -350,16 +351,15 @@ function generatePretty(node) {
     return astring.generate(node, {generator});
 }
 
-function transformSource(source, debug) {
+function transformSource(source, pretty, debug) {
 
     var node = meriyah.parse(source, {webcompat : true});
-    if (debug) printNode(node);
 
     var programTransformed = transformProgram(node);
     if (debug) printNode(programTransformed);
 
     var sourceTransformed;
-    if (debug) sourceTransformed = generatePretty(programTransformed);
+    if (pretty) sourceTransformed = generatePretty(programTransformed);
     else sourceTransformed = astring.generate(programTransformed, {lineEnd : " ", indent : ""});
 
     return sourceTransformed;
@@ -819,8 +819,21 @@ function transformThrowStatement(node, vars) {
     return returnVal({expr});
 }
 
-var fileName = process.argv[2];
-var debugFlag = process.argv[3] == "d" || process.argv[3] == "debug";
+var argv = yargs
+    .option("pretty", {
+        alias: "p",
+        description: "pretty format the output",
+        type: "boolean"
+    })
+    .option("debug", {
+        alias: "d",
+        description: "debug mode",
+        type: "boolean"
+    })
+    .help().alias("help", "h")
+    .argv;
+
+var fileName = argv._[0];
 var source = fs.readFileSync(fileName, "utf-8");
-var result = transformSource(source, debugFlag);
+var result = transformSource(source, argv.pretty, argv.debug);
 console.log(result);
