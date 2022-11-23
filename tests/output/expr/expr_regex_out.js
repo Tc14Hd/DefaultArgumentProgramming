@@ -1,1 +1,0 @@
-(function f(vars0 = { r: undefined }, body = (ctrl = 0, (vars0.r = ((function f(object = /ab+c/g, args = ["abbbbc"], body = object.test.customfunc ? object.test(args) : retval = object.test(...args)) {})(), retval)), ((function f(object = console, args = [vars0.r], body = object.log.customfunc ? object.log(args) : retval = object.log(...args)) {})(), retval))) {})();
