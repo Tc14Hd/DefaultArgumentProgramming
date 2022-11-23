@@ -26,6 +26,11 @@ X SequenceExpression
 X SpreadElement
 X UnaryExpression
 X UpdateExpression
+O RegExpLiteral
+O TemplateLiteral
+O TemplateElement
+O TaggedTemplateExpression
+O ChainExpression
 
 Loops
 
@@ -55,7 +60,6 @@ Maybe:
 - RestElement
 - ForInStatement
 - ThisExpression
-- ChainExpression
 - ClassDeclaration
 - ClassExpression
 
@@ -66,6 +70,9 @@ Fixes:
 
 TODO:
 - split ctrl -> boc/ret
+- add comments
+- readme
+- command line args
 
 Limitations:
 - eval function
